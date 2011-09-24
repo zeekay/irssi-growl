@@ -5,13 +5,13 @@ use vars qw($VERSION %IRSSI);
 
 $SIG{CHLD} = 'IGNORE';
 
-$VERSION = '1.0.7';
+$VERSION = '1.0.0';
 %IRSSI = (
     authors     => 'zk',
-    contact     => 'zk@none.such',
+    contact     => 'zeekayy@gmail.com',
     name        => 'growl',
-    description => 'Sends remote growl notifications',
-    commands    => 'growl'
+    commands    => 'growl',
+    description => 'Growl notifications for irssi'
 );
 
 use Irssi;
@@ -26,26 +26,21 @@ Irssi::settings_add_str('growl', 'growl_image', '~/.irssi-growl/img/irssi-white.
 # help
 sub show_help() {
     my $help = $IRSSI{name}." ".$VERSION.'
-Simple script which uses growl to trigger notifications on highlight. It base64 encodes
-the notifications, which are decoded and passed to growlnotify. Requires remote helper script.
+Simple script which uses growl to trigger notifications on highlight. It uses ssh to connect
+to the computer running growl and uses remote-notify.pl to actually trigger the notification,
+which passes the notification to growlnotify.
  
-Example remote helper script:
-#!/usr/bin/env perl
-use MIME::Base64;
-$args = decode_base64($ARGV[0]);
-system("/usr/local/bin/growlnotify $args");
-
 commands
-  /growl                  Toggle growl notifications on/off
-  /growl sticky           Toggle sticky notifications on/off
-  /growl help             Display this help
+  /growl                  Toggle growl notifications on/off.
+  /growl sticky           Toggle sticky notifications on/off.
+  /growl help             Display this help.
 
 settings
-  growl_enabled           Disable/Enable growl
-  growl_sticky            Make growl notfications sticky            
-  growl_host              Host to send growl notifications to
-  growl_path              Path to remote helper script
-  growl_image             Path to image you want growl to use';
+  growl_enabled           Disable/Enable growl.
+  growl_sticky            Make growl notfications sticky.      
+  growl_host              Host to send growl notifications to.
+  growl_path              Path to remote-notify.pl on remote host.
+  growl_image             Path to image to you want growl to use.';
 
     print CLIENTCRAP $help;
 }
